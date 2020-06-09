@@ -1,0 +1,44 @@
+// Priors and rules file
+// *********************
+
+[PARAMETERS]
+//#isInt? #name   #dist.#min  #max
+//all N are in number of haploid individuals
+1  N0_Man_cit      unif      5000   100000   output
+1  N1_Man_cit      unif      1000    25000   output
+1  N_Man_cit       unif     50000  2000000   output
+1  N0_Man_lab      unif       100    10000   output
+1  N_Man_lab       unif     50000  2000000   output
+1  N0_Nic_cit      unif      1000    25000   output
+1  N_Nic_cit       unif     50000  2000000   output
+1  N0_Nic_lab      unif       100    10000   output
+1  N_Nic_lab       unif     50000  2000000   output
+0  MIG_man         logunif   1e-6     1e-2   output
+0  MIG_nic         logunif   1e-6     1e-2   output
+0  MIG_cit         logunif   1e-7     1e-3   output
+0  MIG_lab         logunif   1e-7     1e-3   output
+1  TDIV_lab        unif       100     4000   output
+1  TPLUS1          unif         1     4000   hide
+1  TPLUS2          unif         1     5000   hide
+1  TPLUS3          unif         1     1000   hide
+
+[RULES]
+
+[COMPLEX PARAMETERS]
+1  TDIV_man = TDIV_lab + TPLUS1   output
+1  TDIV_cit = TDIV_man + TPLUS2   output
+1  TCHANGE_cit = TDIV_cit+TPLUS3   output
+0  RESIZE_cit = N0_Man_cit/N1_Man_cit       hide
+0  RATIO_Man_cit = N1_Man_cit/N_Man_cit         hide
+0  RLOG_Man_cit = log(RATIO_Man_cit)        hide
+0  R_Man_cit = RLOG_Man_cit/TCHANGE_cit      output
+0  RATIO_Man_lab = N0_Man_lab/N_Man_lab         hide
+0  RLOG_Man_lab = log(RATIO_Man_lab)        hide
+0  R_Man_lab = RLOG_Man_lab/TDIV_man      output
+0  RATIO_Nic_cit = N0_Nic_cit/N_Nic_cit         hide
+0  RLOG_Nic_cit = log(RATIO_Nic_cit)        hide
+0  R_Nic_cit = RLOG_Nic_cit/TDIV_cit      output
+0  RATIO_Nic_lab = N0_Nic_lab/N_Nic_lab         hide
+0  RLOG_Nic_lab = log(RATIO_Nic_lab)        hide
+0  R_Nic_lab = RLOG_Nic_lab/TDIV_lab      output
+

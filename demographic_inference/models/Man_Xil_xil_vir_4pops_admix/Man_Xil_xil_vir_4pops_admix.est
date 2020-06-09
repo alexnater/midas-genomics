@@ -1,0 +1,47 @@
+// Priors and rules file
+// *********************
+
+[PARAMETERS]
+//#isInt? #name   #dist.#min  #max
+//all N are in number of haploid individuals
+1  NPOP0cit      unif      5000   100000   output
+1  NPOP1cit      unif      1000    25000   output
+1  NPOPcit       unif     50000  2000000   output
+1  NPOP0lab      unif       100    10000   output
+1  NPOPlab       unif     50000  2000000   output
+1  NPOP0vir      unif         2     2500   output
+1  NPOPvir       unif        500  100000   output
+1  NPOP0xil      unif         2     2500   output
+1  NPOPxil       unif        500  100000   output
+0  MIGRANTS_cit  unif          0     0.4    output
+0  MIGRANTS_lab  unif          0     0.4    output
+0  CONT_lab      unif          0     0.6   output
+0  MIG_gl        logunif    1e-7    1e-3   output
+0  MIG_cl        logunif    1e-7    1e-3   output
+1  TDIV_cl       unif        100    2000   output
+1  TPLUS1        unif          1     500   hide
+1  TPLUS2        unif          1    1000   hide
+1  TPLUS3        unif        100    5000   hide
+1  TPLUS4        unif          1    1000   hide
+
+[RULES]
+
+[COMPLEX PARAMETERS]
+1  TADMIX = TDIV_cl+TPLUS1  output
+1  TDIV_col = TADMIX+TPLUS2   output
+1  TDIV_gl = TDIV_col+TPLUS3  output
+1  TCHANGE_cit = TDIV_gl+TPLUS4   output
+0  RESIZE_cit = NPOP0cit/NPOP1cit       hide
+0  RATIO_cit = NPOP1cit/NPOPcit         hide
+0  RLOG_cit = log(RATIO_cit)        hide
+0  Rcit = RLOG_cit/TCHANGE_cit      output
+0  RATIO_lab = NPOP0lab/NPOPlab         hide
+0  RLOG_lab = log(RATIO_lab)        hide
+0  Rlab = RLOG_lab/TDIV_gl      output
+0  RATIO_vir = NPOP0vir/NPOPvir     hide
+0  RLOG_vir = log(RATIO_vir)        hide
+0  Rvir = RLOG_vir/TDIV_cl     output
+0  RATIO_xil = NPOP0xil/NPOPxil     hide
+0  RLOG_xil = log(RATIO_xil)        hide
+0  Rxil = RLOG_xil/TDIV_col     output
+

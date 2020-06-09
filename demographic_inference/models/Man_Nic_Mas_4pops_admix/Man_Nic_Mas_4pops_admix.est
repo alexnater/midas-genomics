@@ -1,0 +1,46 @@
+// Priors and rules file
+// *********************
+
+[PARAMETERS]
+//#isInt? #name   #dist.#min  #max
+//all N are in number of haploid individuals
+1  NPOP0man      unif       100    10000   output
+1  NPOPman       unif     50000  2000000   output
+1  NPOP0nic      unif      5000   100000   output
+1  NPOP1nic      unif      1000    25000   output
+1  NPOPnic       unif     50000  2000000   output
+1  NPOP0nlp      unif         2     2500   output
+1  NPOPnlp       unif        500  100000   output
+1  NPOP0lip      unif         2     2500   output
+1  NPOPlip       unif        500  100000   output
+0  MIGRANTS_man  unif          0     0.4    output
+0  MIGRANTS_nic  unif          0     0.4    output
+0  CONT_man      unif          0     0.6   output
+0  MIG_gl        logunif    1e-7    1e-3   output
+0  MIG_cl        logunif    1e-4    1e-2   output
+1  TDIV_cl       unif        100    2000   output
+1  TPLUS1        unif          1     500   hide
+1  TPLUS2        unif          1    1000   hide
+1  TPLUS3        unif        100    5000   hide
+1  TPLUS4        unif          1    1000   hide
+
+[RULES]
+
+[COMPLEX PARAMETERS]
+1  TADMIX = TDIV_cl+TPLUS1  output
+1  TDIV_col = TADMIX+TPLUS2   output
+1  TDIV_gl = TDIV_col+TPLUS3  output
+1  TCHANGE_nic = TDIV_gl+TPLUS4     output
+0  RESIZE_nic = NPOP0nic/NPOP1nic       hide
+0  RATIO_man = NPOP0man/NPOPman         hide
+0  RLOG_man = log(RATIO_man)        hide
+0  Rman = RLOG_man/TDIV_gl      output
+0  RATIO_nic = NPOP1nic/NPOPnic         hide
+0  RLOG_nic = log(RATIO_nic)        hide
+0  Rnic = RLOG_nic/TCHANGE_nic      output
+0  RATIO_nlp = NPOP0nlp/NPOPnlp     hide
+0  RLOG_nlp = log(RATIO_nlp)        hide
+0  Rnlp = RLOG_nlp/TDIV_col     output
+0  RATIO_lip = NPOP0lip/NPOPlip     hide
+0  RLOG_lip = log(RATIO_lip)        hide
+0  Rlip = RLOG_lip/TDIV_cl     output

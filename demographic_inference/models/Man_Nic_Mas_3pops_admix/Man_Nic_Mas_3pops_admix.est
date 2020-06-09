@@ -1,0 +1,38 @@
+// Priors and rules file
+// *********************
+
+[PARAMETERS]
+//#isInt? #name   #dist.#min  #max
+//all N are in number of haploid individuals
+1  NPOP0man      unif       100    10000   output
+1  NPOPman       unif     50000  2000000   output
+1  NPOP0nic      unif      5000   100000   output
+1  NPOP1nic      unif      1000    25000   output
+1  NPOPnic       unif     50000  2000000   output
+1  NPOP0mas      unif         2     2500   output
+1  NPOPmas       unif        500  100000   output
+0  MIGRANTS_man  unif          0     0.4   output
+0  MIGRANTS_nic  unif          0     0.4   output
+0  CONT_man      unif          0     0.6   output
+0  MIG_gl        logunif    1e-7    1e-3   output
+1  TADMIX        unif        100    2000   output
+1  TPLUS1        unif          1     500   hide
+1  TPLUS2        unif        100    5000   hide
+1  TPLUS3        unif          1    1000   hide
+
+[RULES]
+
+[COMPLEX PARAMETERS]
+1  TDIV_col = TADMIX+TPLUS1         output
+1  TDIV_gl = TDIV_col+TPLUS2        output
+1  TCHANGE_nic = TDIV_gl+TPLUS3     output
+0  RESIZE_nic = NPOP0nic/NPOP1nic   hide
+0  RATIO_man = NPOP0man/NPOPman     hide
+0  RLOG_man = log(RATIO_man)        hide
+0  Rman = RLOG_man/TDIV_gl          output
+0  RATIO_nic = NPOP1nic/NPOPnic     hide
+0  RLOG_nic = log(RATIO_nic)        hide
+0  Rnic = RLOG_nic/TCHANGE_nic      output
+0  RATIO_mas = NPOP0mas/NPOPmas     hide
+0  RLOG_mas = log(RATIO_mas)        hide
+0  Rmas = RLOG_mas/TDIV_col         output

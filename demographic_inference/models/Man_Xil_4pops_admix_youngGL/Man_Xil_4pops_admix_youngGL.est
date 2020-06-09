@@ -1,0 +1,46 @@
+// Priors and rules file
+// *********************
+
+[PARAMETERS]
+//#isInt? #name   #dist.#min  #max
+//all N are in number of haploid individuals
+1  NPOP0cit      unif      5000   100000   output
+1  NPOP1cit      unif      1000    25000   output
+1  NPOPcit       unif     50000  2000000   output
+1  NPOP0lab      unif       100    10000   output
+1  NPOPlab       unif     50000  2000000   output
+1  NPOP0ama      unif         2     2500   output
+1  NPOPama       unif        500  100000   output
+1  NPOP0sag      unif         2     2500   output
+1  NPOPsag       unif        500  100000   output
+0  MIGRANTS_cit  unif          0     0.4    output
+0  MIG_gl        logunif    1e-7    1e-3   output
+0  MIG_cl        logunif    1e-7    1e-3   output
+1  TDIV_gl       unif        100    2000   output
+1  TPLUS1        unif          1     500   hide
+1  TPLUS2        unif          1     500   hide
+1  TPLUS3        unif          1    1000   hide
+1  TPLUS4        unif        100    5000   hide
+
+[RULES]
+
+[COMPLEX PARAMETERS]
+
+1  TDIV_cl = TDIV_gl+TPLUS1  output
+1  TADMIX = TDIV_cl+TPLUS2  output
+1  TDIV_col = TADMIX+TPLUS3   output
+1  TCHANGE_cit = TDIV_col+TPLUS4   output
+0  RESIZE_cit = NPOP0cit/NPOP1cit       hide
+0  RATIO_cit = NPOP1cit/NPOPcit         hide
+0  RLOG_cit = log(RATIO_cit)        hide
+0  Rcit = RLOG_cit/TCHANGE_cit      output
+0  RATIO_lab = NPOP0lab/NPOPlab         hide
+0  RLOG_lab = log(RATIO_lab)        hide
+0  Rlab = RLOG_lab/TDIV_gl      output
+0  RATIO_ama = NPOP0ama/NPOPama     hide
+0  RLOG_ama = log(RATIO_ama)        hide
+0  Rama = RLOG_ama/TDIV_col     output
+0  RATIO_sag = NPOP0sag/NPOPsag     hide
+0  RLOG_sag = log(RATIO_sag)        hide
+0  Rsag = RLOG_sag/TDIV_cl     output
+
